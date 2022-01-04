@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -27,17 +28,17 @@ public class ServerRequestHandler {
 
     private final int MAX_THREAD_NUMBER = Runtime.getRuntime().availableProcessors() / 2;
     private int SERVER_PORT = 7080;
-  
+
     /**
      * Main function from Server Request Handler, wait for connections
      * and instantiates new thread for each connection
-     */    
+     */
     public void run() {
         ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_THREAD_NUMBER);
         try {
             log.info("Server Request Handler starting on port " + SERVER_PORT);
             ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-            while (true){
+            while (true) {
                 log.info("Waiting for client requests...");
                 Socket remote = serverSocket.accept();
                 log.info("Connection done");
@@ -62,19 +63,19 @@ public class ServerRequestHandler {
         @Override
         public void run() {
             log.info("\n ServerHandler started for" + this.socket);
-			try {
+            try {
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
                 var request = marshaller.unmarshall(in);
                 ResponseMessage msg = new ResponseMessage();
 
-                if (request.getType().equals(MessageType.ERROR)){
+                if (request.getType().equals(MessageType.ERROR)) {
                     log.warn("Server handler could not interpret request");
                     msg.setHttpCode("400");
                     msg.setHttpMessage("Bad Request");
                     msg.setContent(request.getBody().toString());
-                }else {
+                } else {
                     msg = handleRequest(request);
                 }
 
@@ -88,9 +89,9 @@ public class ServerRequestHandler {
                 socket.close();
 
             } catch (Exception e1) {
-				log.error("Error to receive data from handle requester");
+                log.error("Error to receive data from handle requester");
                 e1.printStackTrace();
-			}
+            }
 
             log.info("\n ServerHandler terminated for" + this.socket + "\n");
 
@@ -99,19 +100,20 @@ public class ServerRequestHandler {
         /**
          * Recover and executes the commands received from client
          */
-        private ResponseMessage handleRequest(InternMessage internMessage){
+        private ResponseMessage handleRequest(InternMessage internMessage) {
             try {
-            	Invoker inv = new Invoker();
+                Invoker inv = new Invoker();
                 return inv.invokeRemoteObject(internMessage);
             } catch (Exception e) {
+                e.printStackTrace();
                 log.error("Error in recover data from received package");
-				JSONObject response = new JSONObject();
-				response.append("Error: ", "There was an error receiving the package.");
-				return new ResponseMessage("500", "Internal Server Error", response.toString());            }
+                JSONObject response = new JSONObject();
+                response.append("Error: ", "There was an error receiving the package.");
+                return new ResponseMessage("500", "Internal Server Error", response.toString());
+            }
         }
 
     }
-
 
 
 }

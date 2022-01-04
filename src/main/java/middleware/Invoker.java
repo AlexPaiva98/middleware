@@ -4,7 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import middleware.communication.message.InternMessage;
 import middleware.communication.message.ResponseMessage;
-
+import middleware.lifecycle.LifecycleManager;
+import middleware.lifecycle.LifecycleManagerRegistry;
 
 /**
  * Provide an INVOKER that accepts client invocations from REQUESTORS.
@@ -18,15 +19,27 @@ import middleware.communication.message.ResponseMessage;
  * the remote invocation, and invokes it.
  */
 public class Invoker {
-		// Method that invokes a remote object, receiving an InternMessage and returning a ResponseMessage
-        public ResponseMessage invokeRemoteObject (InternMessage msg) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
-            // Separates the method type and concatenates with the path to form the hashmap key	
-            var invokerKey = msg.getMethodType().toLowerCase();
-            invokerKey = invokerKey + msg.getRoute();
-            
-            // Calls the invoke method passing the JSON key and parameters.
-    		ResponseMessage respMsg = RemoteObject.findMethod(invokerKey, msg.getBody());
-            	        	
-        	return respMsg;
+    // Method that invokes a remote object, receiving an InternMessage and returning a ResponseMessage
+    public ResponseMessage invokeRemoteObject(InternMessage msg) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
+        ResponseMessage respMsg = null;
+        // Forming the remote object id
+        String remoteObjectId = msg.getMethodType().toLowerCase() + msg.getRoute();
+        // Search for cycle manager responsible for remote object
+        LifecycleManager lifecycleManager = LifecycleManagerRegistry.getLifecycleManager(remoteObjectId);
+        /**
+         * In the event that a target remote object cannot be found by the INVOKER ,
+         * the INVOKER can delegate dispatching to a LOCATION FORWARDER .
+         */
+        if (lifecycleManager == null) {
+            respMsg = LocationForwarder.delegate(remoteObjectId, msg.getBody());
+        } else {
+            // Seek remote object
+            RemoteObject remoteObject = lifecycleManager.invocationArrived(remoteObjectId);
+            // Calls the invoke method passing data.
+            respMsg = remoteObject.executeOperation(msg.getBody());
+            // Release remote object
+            lifecycleManager.invocationDone(remoteObjectId);
         }
+        return respMsg;
+    }
 }

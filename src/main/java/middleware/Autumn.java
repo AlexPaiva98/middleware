@@ -1,72 +1,57 @@
 package middleware;
 
 import java.lang.reflect.Method;
+
 import middleware.annotations.*;
+import middleware.lifecycle.*;
 
 /*
  * Class that encapsulates the middleware, responsible
- *  for storing the methods in hashmaps and starting the 
+ *  for storing the methods in hashmaps and starting the
  *  server on the correct port.
  */
-
-
 public class Autumn {
-	
-	// calls the method that filters and saves remote objects
-	 public String addMethods(Object object) {
-	       try {
-			return filterMethods(object);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	  }
-	
-	//	Method that filters and saves remote objects
-	private String filterMethods(Object object) throws IllegalAccessException, IllegalArgumentException {
-		//	Extract the remote object class
-		Class<?> clazz = object.getClass();
-		
-		//	Walks through all the methods of the class and checks if they have annotations
-        for (Method method : clazz.getDeclaredMethods()) {
-        	// Checks if the annotation is a Get
-            if (method.isAnnotationPresent(Get.class)) {
-            	// Allows the method to be accessed and invoked later
-                method.setAccessible(true);
-            	// Saves the method to the hashmap following the key pattern "get + class route + method route"
-                RemoteObject.addMethodGet("get" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Get.class).router(), method);
-            // Checks if the annotation is a Post
-            }else if (method.isAnnotationPresent(Post.class)) {
-            	// Allows the method to be accessed and invoked later
-                method.setAccessible(true);
-            	// Saves the method to the hashmap following the key pattern "post + class route + method route"
-                RemoteObject.addMethodPost("post" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Post.class).router(), method);            	
-            // Checks if the annotation is a Put
-            }else if (method.isAnnotationPresent(Put.class)) {
-            	// Allows the method to be accessed and invoked later
-                method.setAccessible(true);
-            	// Saves the method to the hashmap following the key pattern "put + class route + method route"
-                RemoteObject.addMethodPut("put" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Put.class).router(), method);           	
-            // Checks if the annotation is a Delete
-            }else if (method.isAnnotationPresent(Delete.class)) {
-            	// Allows the method to be accessed and invoked later
-                method.setAccessible(true);
-            	// Saves the method to the hashmap following the key pattern "delete + class route + method route"
-                RemoteObject.addMethodDelete("delete" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Delete.class).router(), method);            }            
-        }
-        return "sucess add methods";
+
+    public Autumn() {
+        LifecycleManagerRegistry.registerLifecycleManager(Strategy.STATIC_INSTANCE, new StaticInstanceLifecycleManager());
     }
-	
-	//	Method that starts the server on the chosen port
-	public void start(int port) {
-		// ServerRequestHandler instance on the chosen port
-		ServerRequestHandler server = new ServerRequestHandler(port);
-		// call start method
-		server.run();
-	}
+
+    // calls the method that filters and saves remote objects
+    public void registerRemoteObjects(Object object) {
+        //	Extract the component
+        Class<?> clazz = object.getClass();
+        LifecycleManager lifecycleManager = filterLifecycle(clazz);
+        for (Method method : clazz.getDeclaredMethods()) {
+            RemoteObject remoteObject = new RemoteObject();
+            if (method.isAnnotationPresent(Get.class)) {
+                remoteObject.setId("get" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Get.class).router());
+            } else if (method.isAnnotationPresent(Post.class)) {
+                remoteObject.setId("post" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Post.class).router());
+            } else if (method.isAnnotationPresent(Put.class)) {
+                remoteObject.setId("put" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Put.class).router());
+            } else if (method.isAnnotationPresent(Delete.class)) {
+                remoteObject.setId("delete" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Delete.class).router());
+            }
+            method.setAccessible(true);
+            remoteObject.setMethod(method);
+            lifecycleManager.registerRemoteObject(remoteObject);
+        }
+    }
+
+    public LifecycleManager filterLifecycle(Class<?> clazz) {
+        if (clazz.getAnnotation(Lifecycle.class) == null) {
+            return LifecycleManagerRegistry.getLifecycleManager(Strategy.STATIC_INSTANCE);
+        } else {
+            return LifecycleManagerRegistry.getLifecycleManager(clazz.getAnnotation(Lifecycle.class).strategy());
+        }
+    }
+
+    //	Method that starts the server on the chosen port
+    public void start(int port) {
+        // ServerRequestHandler instance on the chosen port
+        ServerRequestHandler server = new ServerRequestHandler(port);
+        // call start method
+        server.run();
+    }
 
 }
