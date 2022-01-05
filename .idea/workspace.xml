@@ -5,15 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a05abd13-ffa8-456c-b334-17e4e950e7ff" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/State.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/application/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/Calculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/application/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/application/registration/ApplicationRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/registration/ApplicationRegistration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/Autumn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/Autumn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.1" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.10" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.10" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.2" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.3" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.4" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.5" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.6" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.6" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.7" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.7" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.8" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.8" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.9" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.9" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jmeter/Lifecycle.jmx" beforeDir="false" afterPath="$PROJECT_DIR$/jmeter/Lifecycle.jmx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/middleware/Invoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/Invoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/RemoteObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/RemoteObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/ServerRequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/ServerRequestHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/communication/message/InternMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/communication/message/InternMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/LifecycleManagerRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/LifecycleManagerRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/StaticInstanceLifecycleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/StaticInstanceLifecycleManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +32,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -157,6 +165,8 @@
       <option name="presentableId" value="Default" />
       <updated>1633458389598</updated>
       <workItem from="1641320844026" duration="117000" />
+      <workItem from="1641333748894" duration="2611000" />
+      <workItem from="1641383395708" duration="7331000" />
     </task>
     <servers />
   </component>

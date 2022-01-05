@@ -23,11 +23,11 @@ public class Invoker {
     public ResponseMessage invokeRemoteObject(InternMessage msg) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, ClassNotFoundException {
         ResponseMessage respMsg = null;
         // Forming the remote object id
-        String remoteObjectId = msg.getMethodType().toLowerCase() + msg.getRoute();
+        String remoteObjectId = msg.getReference();
         // Search for cycle manager responsible for remote object
         LifecycleManager lifecycleManager = LifecycleManagerRegistry.getLifecycleManager(remoteObjectId);
         /**
-         * In the event that a target remote object cannot be found by the INVOKER ,
+         * In the event that a target remote object cannot be found by the INVOKER,
          * the INVOKER can delegate dispatching to a LOCATION FORWARDER .
          */
         if (lifecycleManager == null) {
