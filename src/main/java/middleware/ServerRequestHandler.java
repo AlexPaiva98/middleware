@@ -105,7 +105,6 @@ public class ServerRequestHandler {
                 Invoker inv = new Invoker();
                 return inv.invokeRemoteObject(internMessage);
             } catch (Exception e) {
-                e.printStackTrace();
                 log.error("Error in recover data from received package");
                 JSONObject response = new JSONObject();
                 response.append("Error: ", "There was an error receiving the package.");

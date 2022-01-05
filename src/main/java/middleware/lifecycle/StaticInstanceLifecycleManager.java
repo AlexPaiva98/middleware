@@ -16,7 +16,6 @@ public class StaticInstanceLifecycleManager implements LifecycleManager {
         this.remoteObjects = new ConcurrentHashMap<>();
     }
 
-    @Override
     public RemoteObject getRemoteObject(Object id) {
         return this.remoteObjects.get(id);
     }
@@ -32,7 +31,7 @@ public class StaticInstanceLifecycleManager implements LifecycleManager {
      */
     @Override
     public RemoteObject invocationArrived(Object remoteObjectId) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        RemoteObject remoteObject = this.remoteObjects.get(remoteObjectId);
+        RemoteObject remoteObject = this.getRemoteObject(remoteObjectId);
         if (remoteObject.getInstance() == null) {
             remoteObject.activate();
         }

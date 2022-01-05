@@ -22,6 +22,13 @@ public class RemoteObject {
     private Method method;
     private Object instance;
 
+    public RemoteObject() {}
+
+    public RemoteObject(Object id, Method method) {
+        this.id = id;
+        this.method = method;
+    }
+
     public Object getId() {
         return this.id;
     }

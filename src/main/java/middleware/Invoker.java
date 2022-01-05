@@ -34,11 +34,11 @@ public class Invoker {
             respMsg = LocationForwarder.delegate(remoteObjectId, msg.getBody());
         } else {
             // Seek remote object
-            RemoteObject remoteObject = lifecycleManager.invocationArrived(remoteObjectId);
+            RemoteObject servant = lifecycleManager.invocationArrived(remoteObjectId);
             // Calls the invoke method passing data.
-            respMsg = remoteObject.executeOperation(msg.getBody());
+            respMsg = servant.executeOperation(msg.getBody());
             // Release remote object
-            lifecycleManager.invocationDone(remoteObjectId);
+            lifecycleManager.invocationDone(servant);
         }
         return respMsg;
     }

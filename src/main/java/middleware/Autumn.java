@@ -3,6 +3,7 @@ package middleware;
 import java.lang.reflect.Method;
 
 import middleware.annotations.*;
+import middleware.annotations.Pool;
 import middleware.lifecycle.*;
 
 /*
@@ -14,6 +15,7 @@ public class Autumn {
 
     public Autumn() {
         LifecycleManagerRegistry.registerLifecycleManager(Strategy.STATIC_INSTANCE, new StaticInstanceLifecycleManager());
+        LifecycleManagerRegistry.registerLifecycleManager(Strategy.PER_REQUEST, new PerRequestLifecycleManager());
     }
 
     // calls the method that filters and saves remote objects
@@ -42,7 +44,14 @@ public class Autumn {
         if (clazz.getAnnotation(Lifecycle.class) == null) {
             return LifecycleManagerRegistry.getLifecycleManager(Strategy.STATIC_INSTANCE);
         } else {
-            return LifecycleManagerRegistry.getLifecycleManager(clazz.getAnnotation(Lifecycle.class).strategy());
+            LifecycleManager lifecycleManager = LifecycleManagerRegistry.getLifecycleManager(clazz.getAnnotation(Lifecycle.class).strategy());
+            if (lifecycleManager instanceof PerRequestLifecycleManager) {
+                Pool pool = clazz.getAnnotation(Pool.class);
+                if (pool != null) {
+                    ((PerRequestLifecycleManager) lifecycleManager).setMaxPools(pool.maxQuantity());
+                }
+            }
+            return lifecycleManager;
         }
     }
 
