@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a05abd13-ffa8-456c-b334-17e4e950e7ff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/middleware/annotations/Pool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/PerRequestLifecycleManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/Pool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/OtimizedPerRequestLifecycleManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/StaticLifecycleManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.1" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.10" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.10" afterDir="false" />
@@ -21,11 +20,14 @@
       <change beforePath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.9" beforeDir="false" afterPath="$PROJECT_DIR$/c:/project/resources/t-output/log4j-application.log.9" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/application/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/Calculator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/middleware/Autumn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/Autumn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/Invoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/Invoker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/middleware/RemoteObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/RemoteObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/ServerRequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/ServerRequestHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/annotations/Lifecycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/annotations/Lifecycle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/annotations/Pool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/annotations/Pool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/LifecycleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/LifecycleManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/StaticInstanceLifecycleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/StaticInstanceLifecycleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/PerRequestLifecycleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/PerRequestLifecycleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/State.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/StaticInstanceLifecycleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/OtimizedStaticLifecycleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/Strategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/middleware/lifecycle/Strategy.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +72,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -81,6 +84,7 @@
       <recent name="util.message" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="middleware.lifecycle" />
       <recent name="middleware.annotations" />
     </key>
   </component>

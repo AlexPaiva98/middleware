@@ -1,6 +1,7 @@
 package middleware;
 
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 
 import middleware.annotations.*;
 import middleware.annotations.Pool;
@@ -14,16 +15,19 @@ import middleware.lifecycle.*;
 public class Autumn {
 
     public Autumn() {
-        LifecycleManagerRegistry.registerLifecycleManager(Strategy.STATIC_INSTANCE, new StaticInstanceLifecycleManager());
-        LifecycleManagerRegistry.registerLifecycleManager(Strategy.PER_REQUEST, new PerRequestLifecycleManager());
+        LifecycleManagerRegistry.registerLifecycleManager(Strategy.STATIC_INSTANCE, new StaticLifecycleManager());
+        LifecycleManagerRegistry.registerLifecycleManager(Strategy.OPTIMIZED_STATIC_INSTANCE, new OtimizedStaticLifecycleManager());
+        LifecycleManagerRegistry.registerLifecycleManager(Strategy.PER_REQUEST_INSTANCE, new PerRequestLifecycleManager());
+        LifecycleManagerRegistry.registerLifecycleManager(Strategy.OPTIMIZED_PER_REQUEST_INSTANCE, new OtimizedPerRequestLifecycleManager());
     }
 
     // calls the method that filters and saves remote objects
     public void registerRemoteObjects(Object object) {
         //	Extract the component
         Class<?> clazz = object.getClass();
-        LifecycleManager lifecycleManager = filterLifecycle(clazz);
+        LifecycleManager lifecycleManager = null;
         for (Method method : clazz.getDeclaredMethods()) {
+            lifecycleManager = this.filterLifecycle(method);
             RemoteObject remoteObject = new RemoteObject();
             if (method.isAnnotationPresent(Get.class)) {
                 remoteObject.setId("get" + clazz.getAnnotation(RequestMap.class).router() + method.getAnnotation(Get.class).router());
@@ -40,15 +44,16 @@ public class Autumn {
         }
     }
 
-    public LifecycleManager filterLifecycle(Class<?> clazz) {
-        if (clazz.getAnnotation(Lifecycle.class) == null) {
+    public LifecycleManager filterLifecycle(Method method) {
+        Lifecycle lifecycle = method.getAnnotation(Lifecycle.class);
+        if (lifecycle== null) {
             return LifecycleManagerRegistry.getLifecycleManager(Strategy.STATIC_INSTANCE);
         } else {
-            LifecycleManager lifecycleManager = LifecycleManagerRegistry.getLifecycleManager(clazz.getAnnotation(Lifecycle.class).strategy());
-            if (lifecycleManager instanceof PerRequestLifecycleManager) {
-                Pool pool = clazz.getAnnotation(Pool.class);
+            LifecycleManager lifecycleManager = LifecycleManagerRegistry.getLifecycleManager(lifecycle.strategy());
+            if (lifecycleManager instanceof OtimizedPerRequestLifecycleManager) {
+                Pool pool = method.getAnnotation(Pool.class);
                 if (pool != null) {
-                    ((PerRequestLifecycleManager) lifecycleManager).setMaxPools(pool.maxQuantity());
+                    ((OtimizedPerRequestLifecycleManager) lifecycleManager).setMaxPools(pool.maxQuantity());
                 }
             }
             return lifecycleManager;

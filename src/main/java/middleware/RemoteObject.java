@@ -22,7 +22,8 @@ public class RemoteObject {
     private Method method;
     private Object instance;
 
-    public RemoteObject() {}
+    public RemoteObject() {
+    }
 
     public RemoteObject(Object id, Method method) {
         this.id = id;
@@ -53,9 +54,19 @@ public class RemoteObject {
         this.instance = instance;
     }
 
-    public void activate() throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    public void activate() {
         Class<?> clazz = this.method.getDeclaringClass();
-        this.instance = clazz.getDeclaredConstructor().newInstance();
+        try {
+            this.instance = clazz.getDeclaredConstructor().newInstance();
+        } catch (InstantiationException instantiationException) {
+            log.error(instantiationException.getMessage());
+        } catch (IllegalAccessException illegalAccessException) {
+            log.error(illegalAccessException.getMessage());
+        } catch (InvocationTargetException invocationTargetException) {
+            log.error(invocationTargetException.getMessage());
+        } catch (NoSuchMethodException noSuchMethodException) {
+            log.error(noSuchMethodException.getMessage());
+        }
     }
 
     public void deactivate() {

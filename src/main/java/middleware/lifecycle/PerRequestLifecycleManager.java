@@ -2,52 +2,39 @@ package middleware.lifecycle;
 
 import middleware.RemoteObject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PerRequestLifecycleManager implements LifecycleManager {
 
-    private int maxPools;
-    private ConcurrentHashMap<Object, Pool> pools;
+    protected ConcurrentHashMap<Object, RemoteObject> remoteObjects;
 
     public PerRequestLifecycleManager() {
-        this.maxPools = 1;
-        this.pools = new ConcurrentHashMap<>();
-    }
-
-    public int getMaxPools() {
-        return this.maxPools;
-    }
-
-    public void setMaxPools(int maxPools) {
-        this.maxPools = maxPools;
-    }
-
-    public void registerPerRequestInstancePool(RemoteObject remoteObject, int numberOfInstances) {
-        Pool pool = new Pool(remoteObject, numberOfInstances);
-        this.pools.put(remoteObject.getId(), pool);
+        this.remoteObjects = new ConcurrentHashMap<>();
     }
 
     @Override
     public void registerRemoteObject(RemoteObject remoteObject) {
-        this.registerPerRequestInstancePool(remoteObject, this.getMaxPools());
-        LifecycleManagerRegistry.registerRemoteObject(remoteObject.getId(), Strategy.PER_REQUEST);
+        // Add remote object to managed set
+        this.remoteObjects.put(remoteObject.getId(), remoteObject);
+        // Publish the remote object to the middleware available pool
+        LifecycleManagerRegistry.registerRemoteObject(remoteObject.getId(), Strategy.PER_REQUEST_INSTANCE);
     }
 
     @Override
-    public RemoteObject invocationArrived(Object remoteObjectId) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        Pool pool = this.pools.get(remoteObjectId);
-        RemoteObject servant = pool.getFreeInstance();
-        pool.removeFromPool(servant);
+    public RemoteObject invocationArrived(Object remoteObjectId) {
+        // Get remote object
+        RemoteObject remoteObject = this.remoteObjects.get(remoteObjectId);
+        // Create servant
+        RemoteObject servant = new RemoteObject(remoteObject.getId(), remoteObject.getMethod());
         servant.activate();
+        // Return servant
         return servant;
     }
 
     @Override
     public void invocationDone(RemoteObject servant) {
-        Pool pool = this.pools.get(servant.getId());
+        // Destroy servant
         servant.deactivate();
-        pool.putBackToPool(servant);
     }
 
 }

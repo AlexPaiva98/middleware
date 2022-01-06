@@ -13,14 +13,15 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 
-// Lifecycle annotation, the "strategy" attribute is what defines the lifecycle management approach
-@Lifecycle(strategy = Strategy.PER_REQUEST)
-// Pool annotation, the "maxQuantity" attribute defines the maximum number of instances of a remote object
-@Pool(maxQuantity = 50)
+
 // RequestMap annotation, the attribute "router" is what sets the class route
 @RequestMap(router = "/calc")
 public class Calculator {
 
+    // Lifecycle annotation, the "strategy" attribute is what defines the lifecycle management approach
+    @Lifecycle(strategy = Strategy.OPTIMIZED_PER_REQUEST_INSTANCE)
+    // Pool annotation, the "maxQuantity" attribute defines the maximum number of instances of a remote object
+    @Pool(maxQuantity = 50)
     //Get method, the attribute "router" is what sets the endpoint route
     @Get(router = "/add")
     public JSONObject add(JSONObject jsonObject) throws Throwable {
