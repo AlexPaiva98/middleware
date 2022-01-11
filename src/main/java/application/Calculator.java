@@ -19,9 +19,7 @@ import lombok.NoArgsConstructor;
 public class Calculator {
 
     // Lifecycle annotation, the "strategy" attribute is what defines the lifecycle management approach
-    @Lifecycle(strategy = Strategy.OPTIMIZED_PER_REQUEST_INSTANCE)
-    // Pool annotation, the "maxQuantity" attribute defines the maximum number of instances of a remote object
-    @Pool(maxQuantity = 50)
+    @Lifecycle(strategy = Strategy.STATIC_INSTANCE)
     //Get method, the attribute "router" is what sets the endpoint route
     @Get(router = "/add")
     public JSONObject add(JSONObject jsonObject) throws Throwable {
@@ -37,6 +35,8 @@ public class Calculator {
         return result;
     }
 
+    // Lifecycle annotation, the "strategy" attribute is what defines the lifecycle management approach
+    @Lifecycle(strategy = Strategy.OPTIMIZED_STATIC_INSTANCE)
     //Post method, the attribute "router" is what sets the endpoint route
     @Post(router = "/sub")
     public JSONObject sub(JSONObject jsonObject) throws Throwable {
@@ -50,6 +50,8 @@ public class Calculator {
         return result;
     }
 
+    // Lifecycle annotation, the "strategy" attribute is what defines the lifecycle management approach
+    @Lifecycle(strategy = Strategy.PER_REQUEST_INSTANCE)
     //Put method, the attribute "router" is what sets the endpoint route
     @Put(router = "/mul")
     public JSONObject mul(JSONObject jsonObject) throws Throwable {
@@ -63,6 +65,10 @@ public class Calculator {
         return result;
     }
 
+    // Lifecycle annotation, the "strategy" attribute is what defines the lifecycle management approach
+    @Lifecycle(strategy = Strategy.OPTIMIZED_PER_REQUEST_INSTANCE)
+    // Pool annotation, the "maxQuantity" attribute defines the maximum number of instances of a remote object
+    @Pool(maxQuantity = 50)
     //Delete method, the attribute "router" is what sets the endpoint route
     @Delete(router = "/div")
     public JSONObject div(JSONObject jsonObject) throws Throwable {
